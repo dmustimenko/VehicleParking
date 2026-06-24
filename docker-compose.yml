@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: vehicle-parking-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: vehicleparking
+    ports:
+      - "5432:5432"
+    volumes:
+      - vehicleparking-pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d vehicleparking"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vehicleparking-network
+
+  api:
+    build:
+      context: .
+      dockerfile: VehicleParking.Api/Dockerfile
+    container_name: vehicle-parking-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ConnectionStrings__Postgres: "Host=postgres;Port=5432;Database=vehicleparking;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+    ports:
+      - "8088:8080"
+    networks:
+      - vehicleparking-network
+
+networks:
+  vehicleparking-network:
+    driver: bridge
+
+volumes:
+  vehicleparking-pgdata:
