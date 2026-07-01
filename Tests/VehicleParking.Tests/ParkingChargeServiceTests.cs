@@ -31,7 +31,7 @@ public class ParkingChargeServiceTests
             timeOut
         );
 
-        Assert.Equal(charge, (decimal)expected);
+        Assert.Equal((decimal)expected, charge);
     }
     
     [Fact]

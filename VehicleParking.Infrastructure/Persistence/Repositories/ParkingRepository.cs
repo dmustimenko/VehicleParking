@@ -83,7 +83,16 @@ public class ParkingRepository(ParkingDbContext dbContext)
 
     public async Task CompleteParkingSessionAsync(ParkingSession session)
     {
-        dbContext.ParkingSessions.Update(session);
-        await dbContext.SaveChangesAsync();
+        int updatedSessions = await dbContext.ParkingSessions
+            .Where(o => o.Id == session.Id && o.TimeOut == null)
+            .ExecuteUpdateAsync(o => o
+                .SetProperty(x => x.TimeOut, session.TimeOut)
+                .SetProperty(x => x.Charge, session.Charge)
+            );
+
+        if (updatedSessions == 0)
+        {
+            throw new VehicleNotFoundException(session.VehicleReg);
+        }
     }
 }

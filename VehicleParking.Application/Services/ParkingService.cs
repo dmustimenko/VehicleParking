@@ -6,7 +6,6 @@ using VehicleParking.Domain.Entities;
 using VehicleParking.Domain.Enums;
 using VehicleParking.Domain.Exceptions;
 using VehicleParking.Domain.Services.Interfaces;
-using VehicleParking.Domain.Helpers;
 using VehicleParking.Domain.Values;
 
 namespace VehicleParking.Application.Services;
@@ -24,7 +23,7 @@ public class ParkingService(
             throw new InvalidVehicleTypeException(parkingRequest.VehicleType);
         }
         
-        string vehicleReg = VerifyAndNormalizeVehicleReg(parkingRequest.VehicleReg);
+        string vehicleReg = VerifyAndCreateVehicleReg(parkingRequest.VehicleReg);
 
         ParkingSession? activeParkingSession = await parkingRepository.FindActiveParkingSessionAsync(vehicleReg);
         if (activeParkingSession is not null)
@@ -52,7 +51,7 @@ public class ParkingService(
 
     public async Task<ParkingExitResponse> ExitVehicleAsync(ParkingExitRequest parkingExitRequest)
     {
-        string vehicleReg = VerifyAndNormalizeVehicleReg(parkingExitRequest.VehicleReg);
+        string vehicleReg = VerifyAndCreateVehicleReg(parkingExitRequest.VehicleReg);
 
         ParkingSession? parkingSession = await parkingRepository.FindActiveParkingSessionAsync(vehicleReg);
         if (parkingSession is null)
@@ -88,19 +87,16 @@ public class ParkingService(
         );
     }
 
-    private static string VerifyAndNormalizeVehicleReg(string vehicleReg)
-    {
-        if (string.IsNullOrWhiteSpace(vehicleReg) || vehicleReg.Length > 20)
-        {
-            throw new InvalidVehicleRegException(vehicleReg);
-        }
-
-        return VehicleRegHelpers.Normalize(vehicleReg);
-    }
-    
     private DateTime GetUtcNow()
     {
         return timeProvider.GetUtcNow()
             .UtcDateTime;
+    }
+
+    private static string VerifyAndCreateVehicleReg(string vehicleReg)
+    {
+        return VehicleReg
+            .VerifyAndCreate(vehicleReg)
+            .Value;
     }
 }

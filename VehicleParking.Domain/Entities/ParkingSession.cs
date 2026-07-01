@@ -15,7 +15,6 @@ public sealed class ParkingSession(
     public DateTime TimeIn { get; init; } = timeIn;
 
     public DateTime? TimeOut { get; private set; }
-
     public decimal? Charge { get; private set; }
 
     public void Complete(DateTime timeOut, decimal charge)

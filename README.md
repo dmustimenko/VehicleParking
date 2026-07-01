@@ -178,7 +178,7 @@ Unit tests cover the charge calculation service and the parking service behaviou
 
 ## Things I would like to clarify
 
-- Should a vehicle be charged within the first minute or not? I **assumed** - not.
+- Should a vehicle be charged within the first minute or not? I **assumed** - yes.
 - Should the total number of spaces be configurable? For testing I **assumed** this would be constant value.
 - **Does `VehicleType` affect just charge?** Currently **every space** fits **every vehicle type**
  and allocation is just for the first free space.
