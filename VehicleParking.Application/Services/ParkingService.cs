@@ -7,6 +7,7 @@ using VehicleParking.Domain.Enums;
 using VehicleParking.Domain.Exceptions;
 using VehicleParking.Domain.Services.Interfaces;
 using VehicleParking.Domain.Helpers;
+using VehicleParking.Domain.Values;
 
 namespace VehicleParking.Application.Services;
 

@@ -1,4 +1,4 @@
-﻿namespace VehicleParking.Domain.Entities;
+namespace VehicleParking.Domain.Values;
 
 public sealed record ParkingCapacity(
     int Available,

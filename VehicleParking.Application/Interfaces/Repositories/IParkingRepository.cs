@@ -1,4 +1,5 @@
 using VehicleParking.Domain.Entities;
+using VehicleParking.Domain.Values;
 using VehicleParking.Domain.Enums;
 
 namespace VehicleParking.Application.Interfaces.Repositories;

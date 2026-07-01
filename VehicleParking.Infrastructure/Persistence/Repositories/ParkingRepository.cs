@@ -5,6 +5,7 @@ using VehicleParking.Application.Interfaces.Repositories;
 using VehicleParking.Domain.Entities;
 using VehicleParking.Domain.Enums;
 using VehicleParking.Domain.Exceptions;
+using VehicleParking.Domain.Values;
 using VehicleParking.Infrastructure.Constants;
 using VehicleParking.Infrastructure.Persistence.Databases;
 using VehicleParking.Infrastructure.Persistence.Databases.Configurations;
